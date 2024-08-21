@@ -24,7 +24,7 @@ interface InputProps {
   field: string;
   nbLine?: number;
   totalInputs?: any;
-  isOptional?: boolean;
+  labelTextColor?: string;
   setValue: (field: string, value: string) => void;
   validationError?: string | undefined;
   value?: string;
@@ -40,6 +40,7 @@ const CustomInput: React.FC<InputProps> = ({
   validationError,
   value,
   nbLine,
+  labelTextColor = Colors.dark,
 }) => {
   const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
@@ -51,7 +52,11 @@ const CustomInput: React.FC<InputProps> = ({
   };
   return (
     <View style={[commonStyles.my10]}>
-      {label && <Text style={[styles.labelStyle]}>{label}</Text>}
+      {label && (
+        <Text style={[styles.labelStyle, {color: labelTextColor}]}>
+          {label}
+        </Text>
+      )}
 
       <View
         style={[
@@ -127,7 +132,6 @@ const styles = StyleSheet.create({
   },
   labelStyle: {
     fontSize: 18,
-    color: Colors.dark,
     fontFamily: 'Urbanist-SemiBold',
   },
 });
