@@ -1,9 +1,14 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {LoginScreen} from 'screens/auth';
+import AppNavigator from './navigation/appNavigator';
+import {NavigationContainer} from '@react-navigation/native';
 
 const App = () => {
-  return <LoginScreen />;
+  return (
+    <NavigationContainer>
+      <AppNavigator />
+    </NavigationContainer>
+  );
 };
 
 export default App;
