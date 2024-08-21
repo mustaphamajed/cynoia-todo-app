@@ -6,7 +6,9 @@ export const ROUTE_NAMES = {
     },
  
     AUTH: {
-      LOGIN: 'Login',
+        LOGIN: 'Login',
+      REGISTER: 'Register',
+        
     },
     MAIN: {
         HOME: 'Home',

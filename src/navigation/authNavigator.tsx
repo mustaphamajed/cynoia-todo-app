@@ -7,11 +7,12 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 import {ROUTE_NAMES} from '../helpers/routes';
-import {LoginScreen} from '../screens/auth';
+import {LoginScreen, RegisterScreen} from '../screens/auth';
 
 type AuthStackParamList = {
   navigate(url: string): void;
   Login: undefined;
+  Register: undefined;
 };
 
 export type RootcreenRouteProp<T extends keyof AuthStackParamList> = NRouteProp<
@@ -30,6 +31,10 @@ const AuthNavigator: React.FC = () => {
       screenOptions={{headerShown: false}}
       initialRouteName={ROUTE_NAMES.AUTH.LOGIN}>
       <Stack.Screen name={ROUTE_NAMES.AUTH.LOGIN} component={LoginScreen} />
+      <Stack.Screen
+        name={ROUTE_NAMES.AUTH.REGISTER}
+        component={RegisterScreen}
+      />
     </Stack.Navigator>
   );
 };
