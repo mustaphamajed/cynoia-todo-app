@@ -1,16 +1,4 @@
 {
-    "compilerOptions": {
-      "baseUrl": "src", 
-      "paths": {
-        "@/screens/*": ["src/screens"]
-      },
-      "strict": true,
-      "module": "commonjs",
-      "target": "es5",
-      "jsx": "react-native",
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true
-    },
-    "exclude": ["node_modules", "babel.config.js", "metro.config.js", "jest.config.js"]
+    "extends": "@react-native/typescript-config/tsconfig.json",
+
 }
