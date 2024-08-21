@@ -12,6 +12,8 @@ export const ROUTE_NAMES = {
     },
     MAIN: {
         HOME: 'Home',
+        PROJECT_DETAILS: 'ProjectDetails',
+
       },
    
    

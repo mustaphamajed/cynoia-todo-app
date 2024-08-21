@@ -1,5 +1,11 @@
 import React from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  TouchableOpacity,
+} from 'react-native';
 import {CustomText} from '../shared';
 import commonStyles from '../../helpers/commonStyles';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
@@ -7,11 +13,16 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 interface ProjectCardProps {
   name: string;
   description: string;
+  onPress: () => void;
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({name, description}) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({
+  name,
+  description,
+  onPress,
+}) => {
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
       <CustomText
         fontSize={18}
         fontFamily={commonStyles.bold}
@@ -25,7 +36,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({name, description}) => {
         color={Colors.grayText}>
         {description}
       </CustomText>
-    </View>
+    </TouchableOpacity>
   );
 };
 
