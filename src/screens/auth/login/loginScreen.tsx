@@ -86,6 +86,20 @@ const LoginScreen = () => {
                 text="Login"
                 customStyle={commonStyles.mt20}
               />
+
+              <Pressable
+                style={styles.registerButton}
+                onPress={() =>
+                  navigation.navigate(ROUTE_NAMES.STACK.AUTH, {
+                    screen: ROUTE_NAMES.AUTH.REGISTER,
+                  })
+                }>
+                <Text
+                  style={[styles.registerButtonText, {color: Colors.white}]}>
+                  New on our platform?
+                  <Text style={{color: Colors.blue}}> Create an account</Text>
+                </Text>
+              </Pressable>
             </View>
           </ScrollView>
         </KeyboardAvoidingView>
@@ -103,5 +117,16 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+  },
+  registerButton: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+    paddingTop: 30,
+  },
+  registerButtonText: {
+    fontFamily: 'Urbanist-Bold',
+    fontSize: 16,
+
+    textAlign: 'center',
   },
 });
