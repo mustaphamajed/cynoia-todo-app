@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {HomeHeader} from '../../../components/headers';
 import ProjectCard from '../../../components/cards/projectCard';
 import commonStyles from '../../../helpers/commonStyles';
@@ -10,19 +10,27 @@ import {useNavigation} from '@react-navigation/native';
 import {NavigationRoot} from '../../../interfaces';
 import {ROUTE_NAMES} from '../../../helpers/routes';
 import {useSelector} from 'react-redux';
-import {RootState} from '../../../redux/store';
 import {useQuery} from '@tanstack/react-query';
 import {fetchProjects} from '../../../service/projectService';
 import Octicons from 'react-native-vector-icons/Octicons';
 
+interface Project {
+  id: number;
+  name: string;
+  description: string;
+}
 const HomeScreen = () => {
   const navigation = useNavigation<NavigationRoot>();
-  const {projects} = useSelector((state: RootState) => state.projects);
 
-  const {data, isLoading} = useQuery({
+  const {
+    data,
+    isLoading,
+    error: queryError,
+  } = useQuery<Project[]>({
     queryKey: ['projects'],
-    queryFn: fetchProjects,
+    queryFn: () => fetchProjects<Project>(),
   });
+
   return (
     <ScreenContainer>
       <HomeHeader />
@@ -42,7 +50,7 @@ const HomeScreen = () => {
           />
         </View>
         <View style={commonStyles.pt20}>
-          {staticProjectData.map(({name, id, description}) => {
+          {data?.map(({name, id, description}) => {
             return (
               <ProjectCard
                 key={id}

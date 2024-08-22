@@ -13,7 +13,6 @@ interface InputData {
 }
   
 export const loginInputFields: InputData[] = [
-   
     {
     label:'Username',
       placeholder: 'Enter you username',
@@ -29,6 +28,22 @@ export const loginInputFields: InputData[] = [
     },
 ];
   
+
+export const projectInputFields: InputData[] = [
+    {
+      label:'Name',
+      placeholder: 'Enter your project name',
+      type: 'default',
+      field: 'name',
+    },
+    {
+    label:'Description',
+      placeholder: 'Description',
+      type: 'default',
+      field: 'description',
+    },
+];
+
 export const staticProjectData = [
     { id: 1, name: 'project 1', description: 'description 1' },
     {id:2,name:'project 2', description:'description 2'},

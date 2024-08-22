@@ -17,3 +17,12 @@ export const storeData = async (key: string, value: string) => {
       console.log(`error fetching ${key} `);
     }
   };
+
+  export const deleteData = async (key: string) => {
+    try {
+      await AsyncStorage.removeItem(key);
+    } catch (e) {
+      // saving error
+      console.log(`error removing ${key} `);
+    }
+  };

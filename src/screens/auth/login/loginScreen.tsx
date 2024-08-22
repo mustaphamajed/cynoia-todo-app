@@ -21,21 +21,12 @@ import {
 } from '../../../components/shared';
 import commonStyles from '../../../helpers/commonStyles';
 import {Colors} from '../../../helpers/colors';
-import {useMutation} from '@tanstack/react-query';
-import {loginUser} from '../../../api/api';
-import {AuthContext} from '../../../providers/authProvider';
-interface FormData {
-  username: string;
-  password: string;
-}
 
-interface ValidationData {
-  username: string;
-  password: string;
-}
+import {AuthContext} from '../../../providers/authProvider';
+import {FormData, ValidationData} from '../../../interfaces/auth.interfaces';
 
 type Action = {type: string; payload: string};
-const formReducer = (state: FormData, action: Action): FormData => {
+export const formReducer = (state: FormData, action: Action): FormData => {
   return {...state, [action.type]: action.payload};
 };
 const LoginScreen = () => {

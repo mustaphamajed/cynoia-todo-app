@@ -23,19 +23,9 @@ import {useNavigation} from '@react-navigation/native';
 import {NavigationRoot} from '../../../interfaces';
 import {ROUTE_NAMES} from '../../../helpers/routes';
 import {useMutation} from '@tanstack/react-query';
-import {loginUser, registerUser} from '../../../api/api';
 import {isValidPassword} from '../../../helpers/utils';
 import {AuthContext} from '../../../providers/authProvider';
-
-interface FormData {
-  username: string;
-  password: string;
-}
-
-interface ValidationData {
-  username: string;
-  password: string;
-}
+import {FormData, ValidationData} from '../../../interfaces/auth.interfaces';
 
 type Action = {type: string; payload: string};
 
@@ -45,10 +35,7 @@ const formReducer = (state: FormData, action: Action): FormData => {
 const RegisterScreen = () => {
   const navigation = useNavigation<NavigationRoot>();
   const {register, authLoading} = useContext(AuthContext);
-  const mutation = useMutation({
-    mutationFn: registerUser,
-    mutationKey: ['register'],
-  });
+
   const [formData, formDispatch] = useReducer(formReducer, {
     username: '',
     password: '',
@@ -149,31 +136,11 @@ const RegisterScreen = () => {
               },
             )}
             <CustomButton
-              loading={mutation.isPending}
+              loading={authLoading}
               onPress={handleRegister}
               text="Register"
               customStyle={commonStyles.mt20}
             />
-            {mutation.isError && (
-              <Text
-                style={[
-                  commonStyles.fs14,
-                  commonStyles.regular,
-                  {color: 'red', padding: 5},
-                ]}>
-                {mutation.error.message}
-              </Text>
-            )}
-            {mutation.isError && (
-              <Text
-                style={[
-                  commonStyles.fs14,
-                  commonStyles.regular,
-                  {color: 'green', padding: 5},
-                ]}>
-                Registration Success
-              </Text>
-            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>

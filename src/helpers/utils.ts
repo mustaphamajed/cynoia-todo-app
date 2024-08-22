@@ -5,4 +5,5 @@ export const isValidPassword = (password: string): boolean => {
   
 export enum STORAGE {
     accessToken = 'accessToken',
-  }
+}
+  

@@ -1,7 +1,5 @@
 import React, {createContext, useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {RootState} from '../redux/store';
-import {useAppDispatch} from '../helpers/hooks';
 import api from '../api/api';
 import commonStyles from '../helpers/commonStyles';
 import {View} from 'react-native';
@@ -38,9 +36,7 @@ export const AuthContext = createContext<AuthContextProps>({
 });
 
 export const AuthProvider = ({children}: AuthProviderProps) => {
-  const {user} = useSelector((state: RootState) => state.auth);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-  const dispatch = useAppDispatch();
   const [authLoading, setAuthLoading] = useState<boolean>(false);
 
   const login = async ({
