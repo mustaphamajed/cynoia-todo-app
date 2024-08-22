@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback, useContext, useReducer, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {ROUTE_NAMES} from '../../../helpers/routes';
 import {NavigationRoot} from '../../../interfaces';
@@ -21,9 +21,70 @@ import {
 } from '../../../components/shared';
 import commonStyles from '../../../helpers/commonStyles';
 import {Colors} from '../../../helpers/colors';
+import {useMutation} from '@tanstack/react-query';
+import {loginUser} from '../../../api/api';
+import {AuthContext} from '../../../providers/authProvider';
+interface FormData {
+  username: string;
+  password: string;
+}
 
+interface ValidationData {
+  username: string;
+  password: string;
+}
+
+type Action = {type: string; payload: string};
+const formReducer = (state: FormData, action: Action): FormData => {
+  return {...state, [action.type]: action.payload};
+};
 const LoginScreen = () => {
   const navigation = useNavigation<NavigationRoot>();
+  const {login, authLoading} = useContext(AuthContext);
+  const [formData, formDispatch] = useReducer(formReducer, {
+    username: '',
+    password: '',
+  });
+  const [validationErrors, setValidationErrors] = useState<ValidationData>({
+    username: '',
+    password: '',
+  });
+  const inputChangehandler = useCallback(
+    (field: string, inputValue: string) => {
+      formDispatch({type: field, payload: inputValue});
+
+      if (
+        validationErrors &&
+        validationErrors[field as keyof ValidationData] &&
+        inputValue.trim().length > 0
+      ) {
+        const updatedErrors = {...validationErrors};
+        delete updatedErrors[field as keyof ValidationData];
+        setValidationErrors(updatedErrors);
+      }
+    },
+    [formData, formDispatch, validationErrors, setValidationErrors],
+  );
+
+  const validateForm = () => {
+    const requiredFields: (keyof FormData)[] = ['username', 'password'];
+    const errors: Partial<ValidationData> = {};
+
+    requiredFields.forEach(field => {
+      if (!formData[field]?.trim()) {
+        errors[field] = `${
+          field.charAt(0).toUpperCase() + field.slice(1)
+        } is required!`;
+      }
+    });
+    setValidationErrors(errors as ValidationData);
+    return Object.keys(errors).length === 0;
+  };
+  const handleLogin = () => {
+    if (validateForm()) {
+      login({username: formData.username, password: formData.password});
+    }
+  };
   return (
     <ScreenContainer>
       <KeyboardAvoidingView
@@ -59,32 +120,24 @@ const LoginScreen = () => {
                     placeholder={placeholder}
                     key={index}
                     field={field}
-                    //   totalInputs={formData}
-                    setValue={() => console.log('object')}
+                    totalInputs={formData}
+                    setValue={inputChangehandler}
                     type={type}
-                    //   validationError={validationErrors?.[field]}
+                    validationError={validationErrors?.[field]}
                   />
                 );
               },
             )}
             <CustomButton
-              loading={false}
-              onPress={() =>
-                navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
-                  screen: ROUTE_NAMES.MAIN.HOME,
-                })
-              }
+              loading={authLoading}
+              onPress={handleLogin}
               text="Login"
               customStyle={commonStyles.mt20}
             />
 
             <Pressable
               style={styles.registerButton}
-              onPress={() =>
-                navigation.navigate(ROUTE_NAMES.STACK.AUTH, {
-                  screen: ROUTE_NAMES.AUTH.REGISTER,
-                })
-              }>
+              onPress={() => navigation.navigate(ROUTE_NAMES.AUTH.REGISTER)}>
               <Text style={[styles.registerButtonText, {color: Colors.white}]}>
                 New on our platform?
                 <Text style={{color: Colors.blue}}> Create an account</Text>
