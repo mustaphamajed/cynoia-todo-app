@@ -2,11 +2,9 @@ import React, {createContext, useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {RootState} from '../redux/store';
 import {useAppDispatch} from '../helpers/hooks';
-import {useQueryClient} from '@tanstack/react-query';
-import api, {loginUser} from '../api/api';
+import api from '../api/api';
 import commonStyles from '../helpers/commonStyles';
 import {View} from 'react-native';
-import axios from 'axios';
 import {getData, storeData} from '../helpers/storage';
 import {STORAGE} from '../helpers/utils';
 
@@ -80,12 +78,13 @@ export const AuthProvider = ({children}: AuthProviderProps) => {
   ) => {
     try {
       setAuthLoading(true);
-      const response = await api.post('/register', {
+      await api.post('/register', {
         username,
         password,
       });
 
       setAuthLoading(false);
+      navigateCallback();
     } catch (e) {
       setAuthLoading(false);
 
