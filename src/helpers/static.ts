@@ -15,10 +15,10 @@ interface InputData {
 export const loginInputFields: InputData[] = [
    
     {
-    label:'Email',
-      placeholder: 'Enter you email',
+    label:'Username',
+      placeholder: 'Enter you username',
       type: 'default',
-      field: 'email',
+      field: 'username',
     },
     {
     label:'Password',
