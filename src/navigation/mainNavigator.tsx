@@ -7,12 +7,13 @@ import {
   createNativeStackNavigator,
 } from '@react-navigation/native-stack';
 import {ROUTE_NAMES} from '../helpers/routes';
-import {HomeScreen, ProjectDetails} from '../screens/main';
+import {HomeScreen, NewProjectScreen, ProjectDetails} from '../screens/main';
 
 type MainStackParamList = {
   navigate(url: string): void;
   Home: undefined;
   ProjectDetails: {projectId: string};
+  NewProject: undefined;
 };
 
 export type RootcreenRouteProp<T extends keyof MainStackParamList> = NRouteProp<
@@ -31,6 +32,10 @@ const MainNavigator: React.FC = () => {
       <Stack.Screen
         name={ROUTE_NAMES.MAIN.PROJECT_DETAILS}
         component={ProjectDetails}
+      />
+      <Stack.Screen
+        name={ROUTE_NAMES.MAIN.NEW_PROJECT}
+        component={NewProjectScreen}
       />
     </Stack.Navigator>
   );
