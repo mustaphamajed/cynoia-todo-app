@@ -12,7 +12,7 @@ import {HomeScreen, NewProjectScreen, ProjectDetails} from '../screens/main';
 type MainStackParamList = {
   navigate(url: string): void;
   Home: undefined;
-  ProjectDetails: {projectId: string};
+  ProjectDetails: {projectId: number; projectName: string};
   NewProject: undefined;
 };
 

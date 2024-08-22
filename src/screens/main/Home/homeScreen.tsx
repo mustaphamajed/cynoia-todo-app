@@ -1,10 +1,8 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {HomeHeader} from '../../../components/headers';
-import ProjectCard from '../../../components/cards/projectCard';
 import commonStyles from '../../../helpers/commonStyles';
 import {CustomText, ScreenContainer} from '../../../components/shared';
-import {staticProjectData} from '../../../helpers/static';
 import {Colors} from '../../../helpers/colors';
 import {useNavigation} from '@react-navigation/native';
 import {NavigationRoot} from '../../../interfaces';
@@ -13,6 +11,7 @@ import {useSelector} from 'react-redux';
 import {useQuery} from '@tanstack/react-query';
 import {fetchProjects} from '../../../service/projectService';
 import Octicons from 'react-native-vector-icons/Octicons';
+import {ProjectCard} from '../../../components/cards';
 
 interface Project {
   id: number;
@@ -57,10 +56,10 @@ const HomeScreen = () => {
                 name={name}
                 description={description}
                 onPress={() =>
-                  navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
-                    screen: ROUTE_NAMES.MAIN.PROJECT_DETAILS,
+                  navigation.navigate(ROUTE_NAMES.MAIN.PROJECT_DETAILS, {
                     params: {
-                      projectId: id.toString(),
+                      projectId: id,
+                      projectName: name,
                     },
                   })
                 }

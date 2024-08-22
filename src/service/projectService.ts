@@ -22,4 +22,15 @@ export const createProject = async (projectData: { name: string; description: st
         },
     });
     return response.data;
-  };
+};
+  
+export const fetchProjectsById = async <T>({projectId}:{projectId:number}) : Promise<T[]>=> {
+    const token = await getData(STORAGE.accessToken);
+    const response = await api.get<T[]>(`/projects/${projectId}/tasks`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+    });
+    
+    return response.data
+};
