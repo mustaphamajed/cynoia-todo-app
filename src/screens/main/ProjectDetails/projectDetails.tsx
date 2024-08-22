@@ -15,6 +15,7 @@ import KanbanView from '../../../components/cards/kanbanView';
 import {ListView} from '../../../components/cards';
 import Octicons from 'react-native-vector-icons/Octicons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {ROUTE_NAMES} from '../../../helpers/routes';
 
 const ProjectDetails = () => {
   const navigation = useNavigation<NavigationRoot>();
@@ -56,7 +57,11 @@ const ProjectDetails = () => {
           name="plus"
           size={28}
           color={Colors.white}
-          onPress={() => navigation.navigate(ROUTE_NAMES.MAIN.NEW_PROJECT)}
+          onPress={() =>
+            navigation.navigate(ROUTE_NAMES.MAIN.NEW_TASK, {
+              params: {projectId: params?.params?.projectId},
+            })
+          }
         />
       </View>
       <View>

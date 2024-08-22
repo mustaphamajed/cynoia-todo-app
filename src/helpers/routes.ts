@@ -14,6 +14,8 @@ export const ROUTE_NAMES = {
         HOME: 'Home',
         PROJECT_DETAILS: 'ProjectDetails',
         NEW_PROJECT: 'NewProject',
+        NEW_TASK: 'NewTask',
+
       },
    
    
