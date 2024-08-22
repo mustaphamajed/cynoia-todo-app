@@ -77,9 +77,9 @@ const RegisterScreen = () => {
       errors['username'] = 'username must contain at least 4 letters';
     }
 
-    if (!isValidPassword(formData.password)) {
-      errors['password'] = 'weak password';
-    }
+    // if (!isValidPassword(formData.password)) {
+    //   errors['password'] = 'weak password';
+    // }
     setValidationErrors(errors as ValidationData);
     return Object.keys(errors).length === 0;
   };

@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 
 interface KanbanViewProps {
   tasks: any[] | undefined;
+  onPress: (taskId: number) => void;
 }
 
-const KanbanView: React.FC<KanbanViewProps> = ({tasks}) => {
+const KanbanView: React.FC<KanbanViewProps> = ({tasks, onPress}) => {
   const incompleteTasks = tasks?.filter(task => task.status === 'incomplete');
   const completeTasks = tasks?.filter(task => task.status === 'complete');
 
@@ -14,17 +15,23 @@ const KanbanView: React.FC<KanbanViewProps> = ({tasks}) => {
       <View style={styles.column}>
         <Text style={styles.columnTitle}>Incomplete</Text>
         {incompleteTasks?.map(task => (
-          <View key={task.id} style={styles.taskCard}>
+          <Pressable
+            key={task.id}
+            style={styles.taskCard}
+            onPress={() => onPress(task.id)}>
             <Text>{task.title}</Text>
-          </View>
+          </Pressable>
         ))}
       </View>
       <View style={styles.column}>
         <Text style={styles.columnTitle}>Complete</Text>
         {completeTasks?.map(task => (
-          <View key={task.id} style={styles.taskCard}>
+          <Pressable
+            key={task.id}
+            style={styles.taskCard}
+            onPress={() => onPress(task.id)}>
             <Text>{task.title}</Text>
-          </View>
+          </Pressable>
         ))}
       </View>
     </>

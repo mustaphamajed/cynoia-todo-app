@@ -77,7 +77,8 @@ const NewProjectScreen = () => {
       errors['name'] = 'project name must contain at least 4 letters';
     }
     if (formData.description.length < 10) {
-      errors['name'] = 'project decription must contain at least 10 letters';
+      errors['description'] =
+        'project decription must contain at least 10 letters';
     }
 
     setValidationErrors(errors as ProjectValidationData);

@@ -35,7 +35,11 @@ const ProjectDetails = () => {
   const toggleView = () => {
     setIsKanbanView(!isKanbanView);
   };
-
+  const handleCardPress = (taskId: number) => {
+    navigation.navigate(ROUTE_NAMES.MAIN.NEW_TASK, {
+      params: {taskId: taskId, isUpdate: true},
+    });
+  };
   return (
     <ScreenContainer>
       <View
@@ -59,7 +63,7 @@ const ProjectDetails = () => {
           color={Colors.white}
           onPress={() =>
             navigation.navigate(ROUTE_NAMES.MAIN.NEW_TASK, {
-              params: {projectId: params?.params?.projectId},
+              params: {projectId: params?.params?.projectId, isUpdate: false},
             })
           }
         />
@@ -93,7 +97,10 @@ const ProjectDetails = () => {
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.kanbanContainer}>
-            <KanbanView tasks={tasks} />
+            <KanbanView
+              tasks={tasks}
+              onPress={taskId => handleCardPress(taskId)}
+            />
           </ScrollView>
         ) : (
           <ListView tasks={tasks} />

@@ -19,7 +19,7 @@ type MainStackParamList = {
   Home: undefined;
   ProjectDetails: {projectId: number; projectName: string};
   NewProject: undefined;
-  NewTask: {projectId: number};
+  NewTask: {projectId?: number; taskId?: number; isUpdate: boolean};
 };
 
 export type RootcreenRouteProp<T extends keyof MainStackParamList> = NRouteProp<

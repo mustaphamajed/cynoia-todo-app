@@ -43,7 +43,20 @@ export const projectInputFields: InputData[] = [
       field: 'description',
     },
 ];
-
+export const taskInputFields: InputData[] = [
+    {
+      label:'Title',
+      placeholder: 'Title',
+      type: 'default',
+      field: 'title',
+    },
+    {
+    label:'Description',
+      placeholder: 'Description',
+      type: 'default',
+      field: 'description',
+    },
+];
 export const staticProjectData = [
     { id: 1, name: 'project 1', description: 'description 1' },
     {id:2,name:'project 2', description:'description 2'},
