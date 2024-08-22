@@ -14,6 +14,7 @@ import {fetchProjectsById} from '../../../service/projectService';
 import KanbanView from '../../../components/cards/kanbanView';
 import {ListView} from '../../../components/cards';
 import Octicons from 'react-native-vector-icons/Octicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const ProjectDetails = () => {
   const navigation = useNavigation<NavigationRoot>();
@@ -59,11 +60,27 @@ const ProjectDetails = () => {
         />
       </View>
       <View>
-        <Pressable onPress={toggleView} style={styles.toggleButton}>
-          <Text style={styles.toggleButtonText}>
-            {isKanbanView ? 'List View' : 'Kanban View'}
-          </Text>
-        </Pressable>
+        <View
+          style={[
+            commonStyles.p20,
+            commonStyles.row,
+            commonStyles.alignCenter,
+            commonStyles.justifyBetween,
+          ]}>
+          <CustomText
+            color={Colors.white}
+            fontSize={26}
+            fontFamily={commonStyles.bold}>
+            All Tasks
+          </CustomText>
+          <Pressable onPress={toggleView}>
+            <MaterialIcons
+              name={isKanbanView ? 'view-list' : 'view-kanban'}
+              size={28}
+              color={Colors.white}
+            />
+          </Pressable>
+        </View>
       </View>
       <ScrollView style={styles.container}>
         {isKanbanView ? (
@@ -102,11 +119,6 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
 
-  toggleButton: {
-    padding: 10,
-    backgroundColor: Colors.purple, // Adjust color as needed
-    borderRadius: 8,
-  },
   toggleButtonText: {
     color: '#fff',
     fontSize: 16,
