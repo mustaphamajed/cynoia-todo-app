@@ -7,7 +7,7 @@ import {
   Text,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback, useContext, useReducer, useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import commonStyles from '../../../helpers/commonStyles';
 import {
@@ -22,10 +22,90 @@ import {loginInputFields} from '../../../helpers/static';
 import {useNavigation} from '@react-navigation/native';
 import {NavigationRoot} from '../../../interfaces';
 import {ROUTE_NAMES} from '../../../helpers/routes';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import {useMutation} from '@tanstack/react-query';
+import {loginUser, registerUser} from '../../../api/api';
+import {isValidPassword} from '../../../helpers/utils';
+import {AuthContext} from '../../../providers/authProvider';
 
+interface FormData {
+  username: string;
+  password: string;
+}
+
+interface ValidationData {
+  username: string;
+  password: string;
+}
+
+type Action = {type: string; payload: string};
+
+const formReducer = (state: FormData, action: Action): FormData => {
+  return {...state, [action.type]: action.payload};
+};
 const RegisterScreen = () => {
   const navigation = useNavigation<NavigationRoot>();
+  const {register, authLoading} = useContext(AuthContext);
+  const mutation = useMutation({
+    mutationFn: registerUser,
+    mutationKey: ['register'],
+  });
+  const [formData, formDispatch] = useReducer(formReducer, {
+    username: '',
+    password: '',
+  });
+  const [validationErrors, setValidationErrors] = useState<ValidationData>({
+    username: '',
+    password: '',
+  });
+  const inputChangehandler = useCallback(
+    (field: string, inputValue: string) => {
+      formDispatch({type: field, payload: inputValue});
+
+      if (
+        validationErrors &&
+        validationErrors[field as keyof ValidationData] &&
+        inputValue.trim().length > 0
+      ) {
+        const updatedErrors = {...validationErrors};
+        delete updatedErrors[field as keyof ValidationData];
+        setValidationErrors(updatedErrors);
+      }
+    },
+    [formData, formDispatch, validationErrors, setValidationErrors],
+  );
+
+  const validateForm = () => {
+    const requiredFields: (keyof FormData)[] = ['username', 'password'];
+    const errors: Partial<ValidationData> = {};
+
+    requiredFields.forEach(field => {
+      if (!formData[field]?.trim()) {
+        errors[field] = `${
+          field.charAt(0).toUpperCase() + field.slice(1)
+        } is required!`;
+      }
+    });
+
+    if (formData.username.length < 4) {
+      errors['username'] = 'username must contain at least 4 letters';
+    }
+
+    if (!isValidPassword(formData.password)) {
+      errors['password'] = 'weak password';
+    }
+    setValidationErrors(errors as ValidationData);
+    return Object.keys(errors).length === 0;
+  };
+  const handleRegister = () => {
+    if (validateForm()) {
+      register(
+        {username: formData.username, password: formData.password},
+        () => {
+          navigation.navigate(ROUTE_NAMES.AUTH.LOGIN);
+        },
+      );
+    }
+  };
   return (
     <ScreenContainer>
       <KeyboardAvoidingView
@@ -60,24 +140,40 @@ const RegisterScreen = () => {
                     field={field}
                     label={label}
                     labelTextColor={Colors.white}
-                    //   totalInputs={formData}
-                    setValue={() => console.log('object')}
+                    totalInputs={formData}
+                    setValue={inputChangehandler}
                     type={type}
-                    //   validationError={validationErrors?.[field]}
+                    validationError={validationErrors?.[field]}
                   />
                 );
               },
             )}
             <CustomButton
-              loading={false}
-              onPress={() =>
-                navigation.navigate(ROUTE_NAMES.STACK.MAIN, {
-                  screen: ROUTE_NAMES.MAIN.HOME,
-                })
-              }
+              loading={mutation.isPending}
+              onPress={handleRegister}
               text="Register"
               customStyle={commonStyles.mt20}
             />
+            {mutation.isError && (
+              <Text
+                style={[
+                  commonStyles.fs14,
+                  commonStyles.regular,
+                  {color: 'red', padding: 5},
+                ]}>
+                {mutation.error.message}
+              </Text>
+            )}
+            {mutation.isError && (
+              <Text
+                style={[
+                  commonStyles.fs14,
+                  commonStyles.regular,
+                  {color: 'green', padding: 5},
+                ]}>
+                Registration Success
+              </Text>
+            )}
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
