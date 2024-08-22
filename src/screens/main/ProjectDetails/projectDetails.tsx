@@ -13,11 +13,7 @@ import {useQuery} from '@tanstack/react-query';
 import {fetchProjectsById} from '../../../service/projectService';
 import KanbanView from '../../../components/cards/kanbanView';
 import {ListView} from '../../../components/cards';
-
-interface Task {
-  id: string;
-  text: string;
-}
+import Octicons from 'react-native-vector-icons/Octicons';
 
 const ProjectDetails = () => {
   const navigation = useNavigation<NavigationRoot>();
@@ -41,15 +37,28 @@ const ProjectDetails = () => {
   return (
     <ScreenContainer>
       <View
-        style={[commonStyles.pt40, commonStyles.row, commonStyles.alignCenter]}>
+        style={[
+          commonStyles.px20,
+          commonStyles.pt40,
+          commonStyles.row,
+          commonStyles.alignCenter,
+          commonStyles.justifyBetween,
+        ]}>
         <BackButton callback={() => navigation.goBack()} />
         <CustomText
           color={Colors.white}
           fontSize={24}
-          fontFamily={commonStyles.bold}
-          extraStyle={{flex: 0.8, textAlign: 'center'}}>
+          fontFamily={commonStyles.bold}>
           {params?.params?.projectName}
         </CustomText>
+        <Octicons
+          name="plus"
+          size={28}
+          color={Colors.white}
+          onPress={() => navigation.navigate(ROUTE_NAMES.MAIN.NEW_PROJECT)}
+        />
+      </View>
+      <View>
         <Pressable onPress={toggleView} style={styles.toggleButton}>
           <Text style={styles.toggleButtonText}>
             {isKanbanView ? 'List View' : 'Kanban View'}

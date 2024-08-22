@@ -101,7 +101,7 @@ const RegisterScreen = () => {
         <ScrollView
           contentContainerStyle={commonStyles.flex1}
           showsVerticalScrollIndicator={false}>
-          <View style={commonStyles.pt40}>
+          <View style={[commonStyles.pt40, {width: 52}]}>
             <BackButton callback={() => navigation.goBack()} />
           </View>
           <View

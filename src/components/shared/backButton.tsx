@@ -26,7 +26,6 @@ export default BackButton;
 
 const styles = StyleSheet.create({
   container: {
-    width: 52,
     height: 52,
     borderRadius: 10,
     justifyContent: 'center',
