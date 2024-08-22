@@ -1,13 +1,25 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import {CustomText} from '../shared';
+import commonStyles from '../../helpers/commonStyles';
+import {Colors} from '../../helpers/colors';
 
 const ListView = ({tasks}: {tasks: any}) => {
   return (
     <View style={styles.listContainer}>
       {tasks?.map(task => (
         <View key={task.id} style={styles.listItem}>
-          <Text>{task.title}</Text>
-          <Text>{task.status}</Text>
+          <CustomText fontSize={16} fontFamily={commonStyles.bold}>
+            {task.title}
+          </CustomText>
+          <CustomText
+            fontSize={14}
+            fontFamily={commonStyles.medium}
+            color={
+              task.status === 'complete' ? Colors.lightGreen : Colors.lightRed
+            }>
+            {task.status}
+          </CustomText>
         </View>
       ))}
     </View>

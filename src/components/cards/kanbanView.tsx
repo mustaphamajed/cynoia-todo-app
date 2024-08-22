@@ -1,5 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
+import {Colors} from '../../helpers/colors';
+import {CustomText} from '../shared';
+import commonStyles from '../../helpers/commonStyles';
 
 interface KanbanViewProps {
   tasks: any[] | undefined;
@@ -19,7 +22,9 @@ const KanbanView: React.FC<KanbanViewProps> = ({tasks, onPress}) => {
             key={task.id}
             style={styles.taskCard}
             onPress={() => onPress(task.id)}>
-            <Text>{task.title}</Text>
+            <CustomText fontSize={16} fontFamily={commonStyles.semiBold}>
+              {task.title}
+            </CustomText>
           </Pressable>
         ))}
       </View>
@@ -30,7 +35,9 @@ const KanbanView: React.FC<KanbanViewProps> = ({tasks, onPress}) => {
             key={task.id}
             style={styles.taskCard}
             onPress={() => onPress(task.id)}>
-            <Text>{task.title}</Text>
+            <CustomText fontSize={16} fontFamily={commonStyles.semiBold}>
+              {task.title}
+            </CustomText>
           </Pressable>
         ))}
       </View>
@@ -60,7 +67,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
   },
   description: {
     fontSize: 14,
@@ -69,7 +75,7 @@ const styles = StyleSheet.create({
   taskCard: {
     marginBottom: 12,
     padding: 16,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: Colors.white,
     borderRadius: 8,
   },
 });

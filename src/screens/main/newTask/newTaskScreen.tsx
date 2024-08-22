@@ -215,9 +215,11 @@ const NewTaskScreen = () => {
               </>
             )}
             <CustomButton
-              loading={mutation.isPending}
+              loading={
+                isUpdate ? updateTaskMutation.isPending : mutation.isPending
+              }
               onPress={handleAdd}
-              text="Add"
+              text={isUpdate ? 'Update' : 'Add'}
               customStyle={commonStyles.mt20}
             />
           </View>
