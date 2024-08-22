@@ -108,7 +108,16 @@ const CustomInput: React.FC<InputProps> = ({
           </TouchableOpacity>
         )}
       </View>
-      {/* {validationError && <ValidationErrorMessage message={validationError} />} */}
+      {validationError && (
+        <Text
+          style={[
+            commonStyles.fs14,
+            commonStyles.regular,
+            {color: 'red', padding: 5},
+          ]}>
+          {validationError}
+        </Text>
+      )}
     </View>
   );
 };
